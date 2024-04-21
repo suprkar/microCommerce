@@ -1,17 +1,39 @@
-const express = require('express');
 const mongoose = require('mongoose');
-const productRoutes = require('./routes/productRoutes');
-const cors = require('cors');
-const app = express();
-const port = 4002;
 
-app.use(express.json());
-app.use(cors());
-
-mongoose.connect("your-mongodb-connection-string-here");
-
-app.use('/api/products', productRoutes);
-
-app.listen(port, () => {
-    console.log(`Product Service running on port ${port}`);
+const productSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    new_price: {
+        type: Number,
+        required: true
+    },
+    old_price: {
+        type: Number
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    available: {
+        type: Boolean,
+        default: true
+    }
 });
+
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
