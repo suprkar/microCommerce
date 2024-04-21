@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = 'user-service:latest'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/suprkar/microCommerce.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE ./user-service/'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Define steps for running your tests here
+                sh 'echo "Running tests in User Service"'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f ./user-service/k8s/deployment.yaml'
+                sh 'kubectl apply -f ./user-service/k8s/service.yaml'
+            }
+        }
+    }
+}
