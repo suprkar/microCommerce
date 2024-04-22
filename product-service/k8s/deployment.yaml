@@ -14,6 +14,19 @@ spec:
     spec:
       containers:
       - name: product-service
-        image: product-service:latest
+        image: pes2ug21cs556supratikkar/cloudcomputing-6:product-service
         ports:
         - containerPort: 4002
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4002
+    targetPort: 4002
+  selector:
+    app: product-service
