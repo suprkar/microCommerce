@@ -136,3 +136,34 @@ kubectl apply -f k8s/product-deployment.yaml
 kubectl apply -f k8s/order-deployment.yaml
 kubectl apply -f k8s/user-deployment.yaml
 ```
+2. Check the status of the pods:
+```
+kubectl get pods
+```
+3. Access the services:
+```
+kubectl port-forward service/product-service 3000:3000
+kubectl port-forward service/order-service 3001:3001
+kubectl port-forward service/user-service 3002:3002
+```
+### Accessing the Application
+
+Once all services are running, you can access them at:
+- Product Service: http://localhost:3000
+- Order Service: http://localhost:3001
+- User Service: http://localhost:3002
+
+Note: The actual endpoints and ports may vary based on your specific configuration.
+
+### Continuous Integration/Deployment
+
+The project uses Jenkins for CI/CD. The Jenkinsfile in the root directory defines the pipeline:
+
+1. Code is pushed to the repository
+2. Jenkins triggers a new build
+3. Services are built and tested
+4. Docker images are created and pushed to a registry
+5. Kubernetes deployments are updated with the new images
+
+For detailed Jenkins setup, please refer to your Jenkins server configuration.
+
